@@ -49,6 +49,60 @@
 - **「从 package.json 导入」**：一键把项目里定义好的命令列出来让你挑，大仓库里各个子目录的命令也能扫出来，点一下自动填好
 - 配置按项目保存，同项目的所有会话共享同一份
 
+## 安装和开发指南
+
+### 安装（普通用户）
+
+仓库：https://github.com/cloader/dsh-devlaunch
+
+把插件装进你的 DSH（构建产物已随仓库提供，装完即用，不需要自己编译）：
+
+```bash
+dsh plugin --profile <你的profile名> add github:cloader/dsh-devlaunch
+```
+
+装完后：**重启 dsh web**（插件的后台部分要重启才会加载），然后浏览器刷新一下，会话头部就能看到「启动」按钮了。
+
+### 安装（本地开发用）
+
+如果你要改代码，用本地目录方式安装，改动直接生效在你的机器上：
+
+```bash
+git clone https://github.com/cloader/dsh-devlaunch
+cd dsh-devlaunch
+npm install
+npm run build
+dsh plugin --profile <你的profile名> add link:<本目录的路径>
+```
+
+### 开发
+
+```bash
+npm run build          # 构建（改完代码都要跑一次）
+npm run typecheck      # 类型检查
+npm test               # 跑全部测试（共 40 项）
+```
+
+想单独跑某一组测试：
+
+```bash
+node --experimental-strip-types tests/smoke.mjs         # 进程启停、重启、无残留
+node --experimental-strip-types tests/features.mjs      # 就绪检测、自动重启、端口识别、预设
+node --experimental-strip-types tests/scan-fixture.mjs  # package.json 扫描
+```
+
+**改动后怎么让它生效**（这俩不一样，记住能省很多困惑）：
+
+- 只改了**界面**（按钮、控制台、配置窗口的样子和交互）：跑 `npm run build`，然后浏览器**刷新**就够了
+- 改了**后台**（进程管理、就绪检测、自动重启这些逻辑）：跑 `npm run build` 之后，必须**重启 dsh web** 才生效
+
+### 代码放在哪
+
+- `src/client/`：网页里看到的一切（按钮、控制台、配置窗口）
+- `src/host/`：后台（进程的启动/停止/重启、就绪检测、命令扫描）
+- `src/shared/`：两边共用的数据格式和校验
+- 改配置数据格式时记得三边一起改，跑一遍 `npm test` 再收工
+
 ## 升级日志
 
 ### 0.3.0

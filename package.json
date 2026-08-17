@@ -40,7 +40,8 @@
     "build:host": "tsdown -c tsdown.host.config.ts",
     "build:client": "tsdown -c tsdown.client.config.ts && node scripts/wrap-client.mjs",
     "watch": "tsdown -c tsdown.host.config.ts --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types tests/smoke.mjs && node --experimental-strip-types tests/features.mjs && node --experimental-strip-types tests/scan-fixture.mjs"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
