@@ -58,6 +58,8 @@
 把插件装进你的 DSH（构建产物已随仓库提供，装完即用，不需要自己编译）：
 
 ```bash
+dsh plugin --profile <你的profile名> add dsh-devlaunch
+或
 dsh plugin --profile <你的profile名> add github:cloader/dsh-devlaunch
 ```
 
