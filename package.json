@@ -1,0 +1,57 @@
+{
+  "name": "dsh-devlaunch",
+  "description": "One-click dev-process launcher for the DSH web GUI: per-workspace launch configs (frontend / backend / other command groups), a session-header start button, and an in-session console tab streaming live process output over SSE. Host half spawns and supervises the processes (tree-kill on Windows, ring-buffered output); browser half mounts through the official slot system — no DSH source changes.",
+  "version": "0.3.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./invariant": "./lib/invariant.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib/**/*.js",
+    "lib/**/*.js.map",
+    "src",
+    "cordis.patch.yml",
+    "LICENSE"
+  ],
+  "license": "Apache-2.0",
+  "author": "cloader",
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "devserver",
+    "launcher"
+  ],
+  "scripts": {
+    "build": "npm run build:host && npm run build:client",
+    "build:host": "tsdown -c tsdown.host.config.ts",
+    "build:client": "tsdown -c tsdown.client.config.ts && node scripts/wrap-client.mjs",
+    "watch": "tsdown -c tsdown.host.config.ts --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-host-webserver": "^0.1.0-rc.6",
+    "@deepseek-ai/dsh-workspace": "^0.1.0-rc.6",
+    "@types/node": "^22.20.1",
+    "@types/react": "~18.3.1",
+    "@types/react-dom": "~18.3.7",
+    "react": "~18.3.1",
+    "react-dom": "~18.3.1",
+    "tsdown": "0.22.2",
+    "typescript": "~5.7.2"
+  }
+}
